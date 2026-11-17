@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineBook | Movie Ticket Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="logo">CINE<span>BOOK</span></div>
+        <p>Your next movie experience starts here.</p>
+        <button id="historyBtn" class="history-button">MY BOOKINGS</button>
+    </header>
+
+    <main class="container">
+
+        <!-- MOVIE CATALOGUE -->
+        <section class="catalogue-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">NOW SHOWING</p>
+                    <h1>Explore Movies</h1>
+                    <p class="muted">Choose a movie to start your booking.</p>
+                </div>
+                <input
+                    type="search"
+                    id="movieSearch"
+                    placeholder="Search movies..."
+                    aria-label="Search movies"
+                >
+            </div>
+
+            <div id="movieGrid" class="movie-grid"></div>
+        </section>
+
+        <!-- BOOKING SECTION -->
+        <section class="booking-section" id="bookingSection">
+
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">YOUR MOVIE NIGHT</p>
+                    <h2>Book Your Tickets</h2>
+                    <p class="muted">Complete the steps below to reserve your seats.</p>
+                </div>
+            </div>
+
+            <div class="selected-movie-box">
+                <span class="step-number">01</span>
+                <div>
+                    <p class="muted small">SELECTED MOVIE</p>
+                    <h3 id="selectedMovie">No movie selected</h3>
+                    <p id="selectedMovieInfo" class="muted">Choose a movie above.</p>
+                </div>
+            </div>
+
+            <div class="booking-options">
+                <div class="form-group">
+                    <label for="cinema">Cinema</label>
+                    <select id="cinema">
+                        <option value="">Choose cinema</option>
+                        <option value="PVR Cinemas">PVR Cinemas</option>
+                        <option value="INOX Cinemas">INOX Cinemas</option>
+                        <option value="Cinepolis">Cinepolis</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <select id="date">
+                        <option value="">Choose date</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="showtime-section">
+                <h3>Choose Showtime</h3>
+
+                <div class="showtime-options">
+                    <label class="showtime-option">
+                        <input type="radio" name="showtime" value="10:00 AM">
+                        <span>10:00 AM</span>
+                    </label>
+
+                    <label class="showtime-option">
+                        <input type="radio" name="showtime" value="2:00 PM">
+                        <span>2:00 PM</span>
+                    </label>
+
+                    <label class="showtime-option">
+                        <input type="radio" name="showtime" value="7:00 PM">
+                        <span>7:00 PM</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- SEAT SELECTION -->
+            <div class="seat-section">
+                <div class="seat-heading">
+                    <div>
+                        <p class="eyebrow">STEP 02</p>
+                        <h3>Select Your Seats</h3>
+                    </div>
+                    <p class="muted small">40 seats available per show</p>
+                </div>
+
+                <div class="screen-container">
+                    <div class="screen"></div>
+                    <p>SCREEN THIS WAY</p>
+                </div>
+
+                <div id="seatGrid" class="seat-grid"></div>
+
+                <div class="seat-legend">
+                    <span><i class="legend-seat available"></i> Available</span>
+                    <span><i class="legend-seat selected"></i> Selected</span>
+                    <span><i class="legend-seat booked"></i> Booked</span>
+                </div>
+
+                <div class="seat-pricing">
+                    <p>Selected seats: <strong id="seatCount">0</strong></p>
+                    <p>Total amount: <strong id="totalPrice">₹0</strong></p>
+                </div>
+            </div>
+
+            <!-- CUSTOMER DETAILS: SHOWN AFTER SEAT SELECTION -->
+            <section id="customerSection" class="customer-section" hidden>
+                <p class="eyebrow">STEP 03</p>
+                <h3>Who's Booking?</h3>
+                <p class="muted">Enter your details for the digital ticket.</p>
+
+                <div class="booking-options">
+                    <div class="form-group">
+                        <label for="customerName">Full Name</label>
+                        <input
+                            type="text"
+                            id="customerName"
+                            placeholder="Enter your name"
+                            maxlength="60"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerPhone">Phone Number</label>
+                        <input
+                            type="tel"
+                            id="customerPhone"
+                            placeholder="10-digit mobile number"
+                            maxlength="10"
+                            inputmode="numeric"
+                        >
+                    </div>
+                </div>
+
+                <p id="formError" class="error-message" role="alert"></p>
+
+                <button id="confirmBtn" class="primary-button">
+                    CONFIRM & BOOK
+                </button>
+            </section>
+
+            <p class="booking-note">
+                This is a demonstration booking system. No real payment is collected.
+            </p>
+
+        </section>
+    </main>
+
+    <!-- BOOKING HISTORY -->
+    <section id="historySection" class="history-section" hidden>
+        <div class="history-header">
+            <div>
+                <p class="eyebrow">YOUR RESERVATIONS</p>
+                <h2>Booking History</h2>
+            </div>
+            <button id="closeHistoryBtn" class="secondary-button">CLOSE</button>
+        </div>
+        <div id="historyList"></div>
+    </section>
+
+    <!-- DIGITAL TICKET POPUP -->
+    <div id="ticketModal" class="modal" hidden>
+        <div class="modal-backdrop"></div>
+
+        <div class="ticket-modal-content" role="dialog" aria-modal="true"
+             aria-labelledby="ticketTitle">
+
+            <button id="closeTicketBtn" class="modal-close" aria-label="Close ticket">
+                &times;
+            </button>
+
+            <div class="ticket-top">
+                <p class="eyebrow">CINEBOOK PRESENTS</p>
+                <h2 id="ticketTitle">Your Movie Ticket</h2>
+                <p class="muted">Your booking is confirmed!</p>
+            </div>
+
+            <div id="ticketDetails" class="ticket-details"></div>
+
+            <div class="ticket-actions">
+                <button id="printTicketBtn" class="primary-button">PRINT TICKET</button>
+                <button id="closeTicketBottomBtn" class="secondary-button">CLOSE</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 CineBook. Made for movie lovers.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
